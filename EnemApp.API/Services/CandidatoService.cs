@@ -17,9 +17,17 @@ namespace EnemApp.API.Services
         }
         public Candidato AddCandidato(Candidato candidato)
         {
-            var candidatoBd = _candidatoRepository.AddCandidato(candidato);
+            if (candidato != null)
+            {
+                if (candidato.Nota >= 0 && candidato.Nota <= 100 && !candidato.Nome.Any(char.IsDigit) &&
+                    !candidato.Cidade.Any(char.IsDigit))
+                {
+                    var candidatoDb = _candidatoRepository.AddCandidato(candidato);
+                    return candidatoDb;
+                }
+            }
 
-            return candidatoBd;
+            return null;
         }
 
         public void DeleteCandidato(int idCandidato)
@@ -43,9 +51,32 @@ namespace EnemApp.API.Services
 
         public Candidato UpdateCandidato(Candidato candidato)
         {
-            var candidatoBd = _candidatoRepository.UpdateCandidato(candidato);
+            if (candidato != null)
+            {
+                if (candidato.Nota >= 0 && candidato.Nota <= 100 && !candidato.Nome.Any(char.IsDigit) &&
+                    !candidato.Cidade.Any(char.IsDigit))
+                {
+                    var candidatoDb = _candidatoRepository.AddCandidato(candidato);
+                    return candidatoDb;
+                }
+            }
 
-            return candidatoBd;
+            return null;
+        }
+
+        public void RealizarConcurso(int numVagas)
+        {
+            var candidatos = GetCandidatos().OrderByDescending(c => c.Nota).ToList(); 
+            var cont = 1;
+            foreach (var Candidato in candidatos)
+            {
+                if (Candidato.Nota == 0) Candidato.Aprovado = false;
+                else if (numVagas == candidatos.Count) Candidato.Aprovado = true;
+                else if (cont <= numVagas) Candidato.Aprovado = true;
+                else if (cont > numVagas) Candidato.Aprovado = false;
+                cont++;
+                var candidatoBd = UpdateCandidato(Candidato);
+            }
         }
     }
 }

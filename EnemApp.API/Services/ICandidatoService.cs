@@ -17,6 +17,7 @@ namespace EnemApp.API.Services
         IEnumerable<Candidato> GetCandidatos();
 
         void DeleteCandidato(int idCandidato);
+        void RealizarConcurso(int numVags);
 
     }
 }

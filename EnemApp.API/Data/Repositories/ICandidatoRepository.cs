@@ -17,5 +17,7 @@ namespace EnemApp.API.Data.Repositories
         IEnumerable<Candidato> GetCandidatos();
 
         void DeleteCandidato(int idCandidato);
+
+        
     }
 }

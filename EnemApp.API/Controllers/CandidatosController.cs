@@ -84,5 +84,19 @@ namespace EnemApp.API.Controllers
                 return BadRequest(e);
             }
         }
+
+        [HttpPut ("realizarConcurso/{numVagas}")]
+        public IActionResult RealizarConcurso(int numVagas)
+        {
+            try
+            {
+                _candidatoService.RealizarConcurso(numVagas);
+                return Ok(new {Sucess = true, Message = "Concurso Realizado com Sucesso!"});
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
+            }
+        }
     }
 }
