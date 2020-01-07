@@ -11,11 +11,9 @@ namespace EnemApp.API.Services
         Candidato AddCandidato(Candidato candidato);
 
         Candidato UpdateCandidato(Candidato candidato);
-
+        IEnumerable<Candidato> UpdateCandidatos(IEnumerable<Candidato> candidatos);
         Candidato GetCandidato(int idCandidato);
-
         IEnumerable<Candidato> GetCandidatos();
-
         void DeleteCandidato(int idCandidato);
         void RealizarConcurso(int numVags);
 

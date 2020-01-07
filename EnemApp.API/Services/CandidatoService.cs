@@ -2,6 +2,7 @@
 using EnemApp.API.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -17,6 +18,7 @@ namespace EnemApp.API.Services
         }
         public Candidato AddCandidato(Candidato candidato)
         {
+
             if (candidato != null)
             {
                 if (candidato.Nota >= 0 && candidato.Nota <= 100 && !candidato.Nome.Any(char.IsDigit) &&
@@ -44,7 +46,7 @@ namespace EnemApp.API.Services
 
         public IEnumerable<Candidato> GetCandidatos()
         {
-            var candidatos = _candidatoRepository.GetCandidatos();
+            var candidatos = _candidatoRepository.GetCandidatos().ToList().OrderByDescending(x => x.Nota);
 
             return candidatos;
         }
@@ -56,7 +58,7 @@ namespace EnemApp.API.Services
                 if (candidato.Nota >= 0 && candidato.Nota <= 100 && !candidato.Nome.Any(char.IsDigit) &&
                     !candidato.Cidade.Any(char.IsDigit))
                 {
-                    var candidatoDb = _candidatoRepository.AddCandidato(candidato);
+                    var candidatoDb = _candidatoRepository.UpdateCandidato(candidato);
                     return candidatoDb;
                 }
             }
@@ -64,19 +66,29 @@ namespace EnemApp.API.Services
             return null;
         }
 
+        public IEnumerable<Candidato> UpdateCandidatos(IEnumerable<Candidato> candidatos)
+        {
+            var candidatosDb = _candidatoRepository.UpdateCandidatos(candidatos);
+
+            return candidatosDb;
+        }
+
         public void RealizarConcurso(int numVagas)
         {
-            var candidatos = GetCandidatos().OrderByDescending(c => c.Nota).ToList(); 
-            var cont = 1;
-            foreach (var Candidato in candidatos)
+            var candidatos = GetCandidatos().OrderByDescending(c => c.Nota).ToList();
+            foreach (var candidato in candidatos)
             {
-                if (Candidato.Nota == 0) Candidato.Aprovado = false;
-                else if (numVagas == candidatos.Count) Candidato.Aprovado = true;
-                else if (cont <= numVagas) Candidato.Aprovado = true;
-                else if (cont > numVagas) Candidato.Aprovado = false;
-                cont++;
-                var candidatoBd = UpdateCandidato(Candidato);
+                if (candidato.Nota > 0 && numVagas > 0)
+                {
+                    candidato.Aprovado = true;
+                    numVagas--;
+                }
+                else
+                {
+                    candidato.Aprovado = false;
+                }
             }
+            var candidatoBd = UpdateCandidatos(candidatos);
         }
     }
 }

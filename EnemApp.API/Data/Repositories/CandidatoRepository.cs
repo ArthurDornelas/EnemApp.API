@@ -49,10 +49,17 @@ namespace EnemApp.API.Data.Repositories
         public Candidato UpdateCandidato(Candidato candidato)
         {
             _dbContext.Candidatos.Update(candidato);
-
             _dbContext.SaveChanges();
 
             return candidato;
+        }
+
+        public IEnumerable<Candidato> UpdateCandidatos(IEnumerable<Candidato> candidatos)
+        {
+            _dbContext.Candidatos.UpdateRange(candidatos);
+            _dbContext.SaveChanges();
+
+            return candidatos;
         }
     }
 }

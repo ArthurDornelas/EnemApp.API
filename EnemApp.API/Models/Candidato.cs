@@ -16,12 +16,7 @@ namespace EnemApp.API.Models
         {
             get => nota;
             set
-            {
-                if(value == 0)
-                {
-                    Aprovado = false;
-                }
-                Aprovado = false;
+            { 
                 nota = Math.Round(value, 2);
             }
         }
