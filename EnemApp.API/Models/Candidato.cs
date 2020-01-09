@@ -5,10 +5,9 @@ using System.Threading.Tasks;
 
 namespace EnemApp.API.Models
 {
-    public class Candidato
+    public class Candidato : BaseEntity<Candidato>
     {
         private double nota;
-        public int Id { get; set; }
         public string Nome { get; set; }
         public string Cidade { get; set; }
         public bool Aprovado { get; set; }
@@ -16,7 +15,7 @@ namespace EnemApp.API.Models
         {
             get => nota;
             set
-            { 
+            {
                 nota = Math.Round(value, 2);
             }
         }

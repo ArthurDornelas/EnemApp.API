@@ -5,6 +5,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using EnemApp.API.Interfaces.ServicesInterfaces;
+using EnemApp.API.Validators;
+using FluentValidation;
 
 namespace EnemApp.API.Controllers
 {
@@ -13,7 +16,6 @@ namespace EnemApp.API.Controllers
     public class CandidatosController : ControllerBase
     {
         private readonly ICandidatoService _candidatoService;
-
         public CandidatosController(ICandidatoService candidatoService)
         {
             _candidatoService = candidatoService;
@@ -50,11 +52,17 @@ namespace EnemApp.API.Controllers
         {
             try
             {
-                return Created("candidatos", _candidatoService.AddCandidato(candidato));
+                _candidatoService.AddCandidato<CandidatoValidator>(candidato);
+                return Created("candidatos", candidato);
             }
-            catch (Exception e)
+            catch (ValidationException ex)
             {
-                return BadRequest(e);
+                CopyValidationErrorsToModelstate(ex);
+                return this.ValidationProblem();
+            }
+            catch (Exception ex)
+            {
+               return BadRequest(ex);
             }
         }
 
@@ -63,11 +71,17 @@ namespace EnemApp.API.Controllers
         {
             try
             {
-                return Ok(_candidatoService.UpdateCandidato(candidato));
+                _candidatoService.UpdateCandidato<CandidatoValidator>(candidato);
+                return Ok(candidato);
             }
-            catch (Exception e)
+            catch (ValidationException ex)
             {
-                return BadRequest(e);
+                CopyValidationErrorsToModelstate(ex);
+                return this.ValidationProblem();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex);
             }
         }
 
@@ -85,17 +99,25 @@ namespace EnemApp.API.Controllers
             }
         }
 
-        [HttpPut ("realizarConcurso/{numVagas}")]
+        [HttpPut("realizarConcurso/{numVagas}")]
         public IActionResult RealizarConcurso(int numVagas)
         {
             try
             {
                 _candidatoService.RealizarConcurso(numVagas);
-                return Ok(new {Sucess = true, Message = "Concurso Realizado com Sucesso!"});
+                return Ok(new { Sucess = true, Message = "Concurso Realizado com Sucesso!" });
             }
             catch (Exception e)
             {
                 return BadRequest(e);
+            }
+        }
+
+        private void CopyValidationErrorsToModelstate(ValidationException validationException)
+        {
+            foreach (var error in validationException.Errors)
+            {
+                ModelState.AddModelError(error.PropertyName, error.ErrorMessage);
             }
         }
     }

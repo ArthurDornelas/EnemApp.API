@@ -5,10 +5,14 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
+using EnemApp.API.Interfaces.RepositoriesInterfaces;
+using EnemApp.API.Interfaces.ServicesInterfaces;
+using EnemApp.API.Validators;
+using FluentValidation;
 
 namespace EnemApp.API.Services
 {
-    public class CandidatoService : ICandidatoService
+    public class CandidatoService : BaseService<Candidato>, ICandidatoService
     {
         private readonly ICandidatoRepository _candidatoRepository;
 
@@ -16,54 +20,41 @@ namespace EnemApp.API.Services
         {
             _candidatoRepository = candidatoRepository;
         }
-        public Candidato AddCandidato(Candidato candidato)
+        public Candidato AddCandidato<TCandidatoValidator>(Candidato candidato)
         {
+            Validate(candidato, Activator.CreateInstance<CandidatoValidator>());
 
-            if (candidato != null)
-            {
-                if (candidato.Nota >= 0 && candidato.Nota <= 100 && !candidato.Nome.Any(char.IsDigit) &&
-                    !candidato.Cidade.Any(char.IsDigit))
-                {
-                    var candidatoDb = _candidatoRepository.AddCandidato(candidato);
-                    return candidatoDb;
-                }
-            }
+            _candidatoRepository.Add(candidato);
+            return candidato;
 
-            return null;
         }
 
         public void DeleteCandidato(int idCandidato)
         {
-            _candidatoRepository.DeleteCandidato(idCandidato);
+            _candidatoRepository.Remove(idCandidato);
         }
 
         public Candidato GetCandidato(int idCandidato)
         {
-            var candidatoBd = _candidatoRepository.GetCandidato(idCandidato);
+            var candidatoBd = _candidatoRepository.GetById(idCandidato);
 
             return candidatoBd;
         }
 
         public IEnumerable<Candidato> GetCandidatos()
         {
-            var candidatos = _candidatoRepository.GetCandidatos().ToList().OrderByDescending(x => x.Nota);
+            var candidatos = _candidatoRepository.SelectAll().ToList().OrderByDescending(x => x.Nota);
 
             return candidatos;
         }
 
-        public Candidato UpdateCandidato(Candidato candidato)
+        public Candidato UpdateCandidato<TCandidatoValidator>(Candidato candidato)
         {
-            if (candidato != null)
-            {
-                if (candidato.Nota >= 0 && candidato.Nota <= 100 && !candidato.Nome.Any(char.IsDigit) &&
-                    !candidato.Cidade.Any(char.IsDigit))
-                {
-                    var candidatoDb = _candidatoRepository.UpdateCandidato(candidato);
-                    return candidatoDb;
-                }
-            }
+            Validate(candidato, Activator.CreateInstance<CandidatoValidator>());
+            
+            _candidatoRepository.Update(candidato);
+            return candidato;
 
-            return null;
         }
 
         public IEnumerable<Candidato> UpdateCandidatos(IEnumerable<Candidato> candidatos)
@@ -89,6 +80,14 @@ namespace EnemApp.API.Services
                 }
             }
             var candidatoBd = UpdateCandidatos(candidatos);
+        }
+
+        private static void Validate(Candidato candidato, IValidator<Candidato> validator)
+        {
+            if (candidato == null)
+                throw new Exception("Registros não detectados!");
+
+            validator.ValidateAndThrow(candidato);
         }
     }
 }

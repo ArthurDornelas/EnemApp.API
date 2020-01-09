@@ -20,7 +20,7 @@
     "EnemApp.API": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "candidatos",
+      "launchUrl": "",
       "applicationUrl": "http://localhost:5000",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"

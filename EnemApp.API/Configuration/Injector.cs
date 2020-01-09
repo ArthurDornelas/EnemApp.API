@@ -6,6 +6,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using EnemApp.API.Interfaces.RepositoriesInterfaces;
+using EnemApp.API.Interfaces.ServicesInterfaces;
+using EnemApp.API.Models;
 
 namespace EnemApp.API.Configuration
 {
@@ -18,6 +21,7 @@ namespace EnemApp.API.Configuration
             services.AddScoped<ICandidatoRepository, CandidatoRepository>();
 
             services.AddScoped<ICandidatoService, CandidatoService>();
+
         }
     }
 }

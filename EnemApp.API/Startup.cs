@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using EnemApp.API.Configuration;
 using EnemApp.API.Data;
+using EnemApp.API.Models;
+using EnemApp.API.Validators;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -33,6 +35,7 @@ namespace EnemApp.API
             services.AddControllers();
             services.AddCors();
             services.RegisterServices();
+            services.AddSwaggerConfiguration();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,6 +53,13 @@ namespace EnemApp.API
             app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
             app.UseAuthorization();
+
+            app.UseSwagger();
+            app.UseSwaggerUI(x =>
+            {
+                x.SwaggerEndpoint("/swagger/v1/swagger.json", "Hackathon v1");
+                x.RoutePrefix = string.Empty;
+            });
 
             app.UseEndpoints(endpoints =>
             {

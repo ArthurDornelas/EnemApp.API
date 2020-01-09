@@ -22,7 +22,7 @@ namespace EnemApp.API.Data.Mappings
 
             builder.Property(x => x.Nota).IsRequired().HasColumnName("nota");
 
-            builder.Property(x => x.Aprovado).HasColumnName("aprovado").HasDefaultValue("false");
+            builder.Property(x => x.Aprovado).HasColumnName("aprovado").HasDefaultValue(false);
 
         }
     }
