@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using EnemApp.API.Interfaces.RepositoriesInterfaces;
 using EnemApp.API.Interfaces.ServicesInterfaces;
 using EnemApp.API.Models;
+using EnemApp.API.Validators;
+using FluentValidation;
 
 namespace EnemApp.API.Configuration
 {
@@ -21,6 +23,8 @@ namespace EnemApp.API.Configuration
             services.AddScoped<ICandidatoRepository, CandidatoRepository>();
 
             services.AddScoped<ICandidatoService, CandidatoService>();
+
+            services.AddTransient<IValidator<Candidato>, CandidatoValidator>();
 
         }
     }

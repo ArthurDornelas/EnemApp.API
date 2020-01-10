@@ -22,11 +22,8 @@ namespace EnemApp.API.Services
         }
         public Candidato AddCandidato<TCandidatoValidator>(Candidato candidato)
         {
-            Validate(candidato, Activator.CreateInstance<CandidatoValidator>());
-
             _candidatoRepository.Add(candidato);
             return candidato;
-
         }
 
         public void DeleteCandidato(int idCandidato)
@@ -50,11 +47,8 @@ namespace EnemApp.API.Services
 
         public Candidato UpdateCandidato<TCandidatoValidator>(Candidato candidato)
         {
-            Validate(candidato, Activator.CreateInstance<CandidatoValidator>());
-            
             _candidatoRepository.Update(candidato);
             return candidato;
-
         }
 
         public IEnumerable<Candidato> UpdateCandidatos(IEnumerable<Candidato> candidatos)
@@ -82,12 +76,5 @@ namespace EnemApp.API.Services
             var candidatoBd = UpdateCandidatos(candidatos);
         }
 
-        private static void Validate(Candidato candidato, IValidator<Candidato> validator)
-        {
-            if (candidato == null)
-                throw new Exception("Registros não detectados!");
-
-            validator.ValidateAndThrow(candidato);
-        }
     }
 }

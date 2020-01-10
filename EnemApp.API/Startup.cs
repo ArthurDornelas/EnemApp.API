@@ -6,6 +6,7 @@ using EnemApp.API.Configuration;
 using EnemApp.API.Data;
 using EnemApp.API.Models;
 using EnemApp.API.Validators;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -36,6 +37,7 @@ namespace EnemApp.API
             services.AddCors();
             services.RegisterServices();
             services.AddSwaggerConfiguration();
+            services.AddMvc().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -55,11 +55,6 @@ namespace EnemApp.API.Controllers
                 _candidatoService.AddCandidato<CandidatoValidator>(candidato);
                 return Created("candidatos", candidato);
             }
-            catch (ValidationException ex)
-            {
-                CopyValidationErrorsToModelstate(ex);
-                return this.ValidationProblem();
-            }
             catch (Exception ex)
             {
                return BadRequest(ex);
@@ -73,11 +68,6 @@ namespace EnemApp.API.Controllers
             {
                 _candidatoService.UpdateCandidato<CandidatoValidator>(candidato);
                 return Ok(candidato);
-            }
-            catch (ValidationException ex)
-            {
-                CopyValidationErrorsToModelstate(ex);
-                return this.ValidationProblem();
             }
             catch (Exception ex)
             {
@@ -113,12 +103,5 @@ namespace EnemApp.API.Controllers
             }
         }
 
-        private void CopyValidationErrorsToModelstate(ValidationException validationException)
-        {
-            foreach (var error in validationException.Errors)
-            {
-                ModelState.AddModelError(error.PropertyName, error.ErrorMessage);
-            }
-        }
     }
 }
