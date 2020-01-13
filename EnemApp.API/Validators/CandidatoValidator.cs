@@ -21,7 +21,8 @@ namespace EnemApp.API.Validators
             RuleFor(c => c.Nome)
                 .NotEmpty().WithMessage("O nome é obrigatório")
                 .Must(c => c.All(char.IsLetter) || c.Any(char.IsWhiteSpace)).WithMessage("O nome não pode conter número e/ou caracteres especiais")
-                .Must(c => !c.StartsWith(' ')).WithMessage("O nome não pode começar com espaço");
+                .Must(c => !c.StartsWith(' ')).WithMessage("O nome não pode começar com espaço")
+                .Must(c => !c.Contains("  ")).WithMessage("espaço");
 
             RuleFor(c => c.Cidade)
                 .NotEmpty().WithMessage("O nome da cidade é obrigatório")
