@@ -20,5 +20,7 @@ namespace EnemApp.API.Models
             }
         }
 
+        public ICollection<CandidatoConcurso> CandidatosConcursos { get; set; }
+
     }
 }

@@ -26,6 +26,10 @@ namespace EnemApp.API.Configuration
 
             services.AddTransient<IValidator<Candidato>, CandidatoValidator>();
 
+            services.AddScoped<IConcursoRepository, ConcursoRepository>();
+
+            services.AddScoped<IConcursoService, ConcursoService>();
+
         }
     }
 }
