@@ -20,5 +20,11 @@ namespace EnemApp.API.Data.Repositories
 
             return candidatos;
         }
+
+        public IEnumerable<Concurso> GetConcursosCandidato(int id)
+        {
+            var concursosQuery = _dbContext.Candidatos.Where(c => c.Id == id).SelectMany(c => c.CandidatosConcursos.Select(c => c.Concurso)).ToList();
+            return concursosQuery;
+        }
     }
 }

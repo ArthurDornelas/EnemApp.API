@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace EnemApp.API.Services
 {
-    public class ConcursoService: BaseService<Concurso>, IConcursoService
+    public class ConcursoService : BaseService<Concurso>, IConcursoService
     {
         private readonly IConcursoRepository _concursoRepository;
 
@@ -56,9 +56,15 @@ namespace EnemApp.API.Services
 
         public IEnumerable<Candidato> GetCandidatosConcurso(int id)
         {
-            var candidatosConcurso = _concursoRepository.GetCandidatosConcurso(id);
+            var candidatosConcurso = _concursoRepository.GetCandidatosConcurso(id).ToList();
 
             return candidatosConcurso;
         }
+
+        public void AddCandidatosConcurso(int id)
+        {
+            _concursoRepository.AddCandidatosConcurso(id);
+        }
+
     }
 }

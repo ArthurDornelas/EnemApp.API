@@ -103,5 +103,18 @@ namespace EnemApp.API.Controllers
             }
         }
 
+        [HttpGet("getConcursosCandidato/{idCandidato}")]
+        public IActionResult GetCandidatosConcurso(int idCandidato)
+        {
+            try
+            {
+                return Ok(_candidatoService.GetConcursosCandidato(idCandidato));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
+            }
+        }
+
     }
 }

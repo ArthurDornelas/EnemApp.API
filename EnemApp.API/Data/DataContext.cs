@@ -16,8 +16,7 @@ namespace EnemApp.API.Data
         public DbSet<Value> Values { get; set; }
         public DbSet<Candidato> Candidatos { get; set; }
         public DbSet<Concurso> Concursos { get; set; }
-        public DbSet<CandidatoConcurso> CandidatosConcursos { get; set; }
-
+        //public DbSet<CandidatoConcurso> CandidatosConcursos { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new CandidatoMap());

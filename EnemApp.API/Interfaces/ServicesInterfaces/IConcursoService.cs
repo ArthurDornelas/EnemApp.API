@@ -15,5 +15,6 @@ namespace EnemApp.API.Interfaces.ServicesInterfaces
         IEnumerable<Concurso> GetConcursos();
         void DeleteConcurso(int idConcurso);
         public IEnumerable<Candidato> GetCandidatosConcurso(int id);
+        public void AddCandidatosConcurso(int id);
     }
 }

@@ -20,15 +20,15 @@ namespace EnemApp.API.Validators
 
             RuleFor(c => c.Nome)
                 .NotEmpty().WithMessage("O nome é obrigatório")
-                .Must(c => c.All(char.IsLetter) || c.Any(char.IsWhiteSpace)).WithMessage("O nome não pode conter número e/ou caracteres especiais")
-                .Must(c => !c.StartsWith(' ')).WithMessage("O nome não pode começar com espaço")
-                .Must(c => !c.Contains("  ")).WithMessage("O nome não pode conter dois espaços seguidos");
+                .Matches(@"^[a-zA-z\u00C0-\u00FF\s]{1,40}$").WithMessage("O nome não pode conter número e/ou caracteres especiais")
+                .Must(c => !c.Contains("  ")).WithMessage("O nome não pode conter dois espaços seguidos")
+                .Must(c => !c.StartsWith(' ')).WithMessage("O nome não pode começar com espaço");
 
             RuleFor(c => c.Cidade)
                 .NotEmpty().WithMessage("O nome da cidade é obrigatório")
-                .Must(c => c.All(char.IsLetter) || c.Any(char.IsWhiteSpace)).WithMessage("O nome da cidade não pode conter número e/ou caracteres especiais")
-                .Must(c => !c.StartsWith(' ')).WithMessage("O nome da cidade não pode começar com espaço")
-                .Must(c => !c.Contains("  ")).WithMessage("O nome da cidade não pode conter dois espaços seguidos"); 
+                .Matches(@"^[a-zA-z\u00C0-\u00FF\s]{1,40}$").WithMessage("O nome da cidade não pode conter número e/ou caracteres especiais")
+                .Must(c => !c.Contains("  ")).WithMessage("O nome da cidade não pode conter dois espaços seguidos")
+                .Must(c => !c.StartsWith(' ')).WithMessage("O nome da cidade não pode começar com espaço");
 
             RuleFor(c => c.Nota)
                 .LessThanOrEqualTo(100).WithMessage("A nota não pode ser maior que 100")

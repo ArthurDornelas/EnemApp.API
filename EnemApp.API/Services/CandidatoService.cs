@@ -76,5 +76,11 @@ namespace EnemApp.API.Services
             var candidatoBd = UpdateCandidatos(candidatos);
         }
 
+        public IEnumerable<Concurso> GetConcursosCandidato(int id)
+        {
+            var concursosDb = _candidatoRepository.GetConcursosCandidato(id);
+            return concursosDb;
+        }
+
     }
 }

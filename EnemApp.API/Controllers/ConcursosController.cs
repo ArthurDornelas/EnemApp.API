@@ -88,12 +88,26 @@ namespace EnemApp.API.Controllers
             }
         }
 
-        [HttpPut("getCandidatosConcurso/{idConcurso}")]
+        [HttpGet("getCandidatosConcurso/{idConcurso}")]
         public IActionResult GetCandidatosConcurso(int idConcurso)
         {
             try
             {
                 return Ok(_concursoService.GetCandidatosConcurso(idConcurso));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
+            }
+        }
+
+        [HttpPatch("addCandidatosConcurso/{idConcurso}")]
+        public IActionResult AddCandidatosConcurso(int idConcurso)
+        {
+            try
+            {
+                _concursoService.AddCandidatosConcurso(idConcurso);
+                return Ok();
             }
             catch (Exception e)
             {

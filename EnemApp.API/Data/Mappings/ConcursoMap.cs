@@ -16,6 +16,8 @@ namespace EnemApp.API.Data.Mappings
 
             builder.Property(x => x.Id).ValueGeneratedOnAdd().HasColumnName("id");
 
+            builder.Property(x => x.Nome).HasMaxLength(100).IsRequired().HasColumnName("nome");
+
             builder.Property(x => x.DataRealizacao).IsRequired().HasColumnName("data_realizacao");
 
             builder.Property(x => x.NumeroVagas).IsRequired().HasColumnName("numero_vagas");

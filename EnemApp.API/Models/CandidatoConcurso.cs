@@ -7,6 +7,11 @@ namespace EnemApp.API.Models
 {
     public class CandidatoConcurso
     {
+        public CandidatoConcurso()
+        {
+            Candidato = new Candidato();
+            Concurso = new Concurso();
+        }
         public int CandidatoId { get; set; }
         public Candidato Candidato { get; set; }
         public int ConcursoId { get; set; }

@@ -7,6 +7,10 @@ namespace EnemApp.API.Models
 {
     public class Candidato : BaseEntity<Candidato>
     {
+        public Candidato()
+        {
+            CandidatosConcursos = new List<CandidatoConcurso>();
+        }
         private double nota;
         public string Nome { get; set; }
         public string Cidade { get; set; }
