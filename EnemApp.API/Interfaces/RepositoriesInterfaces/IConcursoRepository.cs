@@ -11,6 +11,7 @@ namespace EnemApp.API.Interfaces.RepositoriesInterfaces
         public IEnumerable<Concurso> UpdateConcursos(IEnumerable<Concurso> concursos);
         public IEnumerable<Candidato> GetCandidatosConcurso(int id);
         public void AddCandidatosConcurso(int id);
-        
+        public Concurso GetConcursosComCandidatos(int id);
+
     }
 }

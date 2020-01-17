@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EnemApp.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200114143809_ConcursoMigration")]
-    partial class ConcursoMigration
+    [Migration("20200116194133_MigrationCandidatoConcursoRelationship2")]
+    partial class MigrationCandidatoConcursoRelationship2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -58,13 +58,29 @@ namespace EnemApp.API.Migrations
 
             modelBuilder.Entity("EnemApp.API.Models.CandidatoConcurso", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id")
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
                     b.Property<int>("CandidatoId")
+                        .HasColumnName("CandidatoId")
                         .HasColumnType("int");
 
                     b.Property<int>("ConcursoId")
+                        .HasColumnName("ConcursoId")
                         .HasColumnType("int");
 
-                    b.HasKey("CandidatoId", "ConcursoId");
+                    b.Property<DateTime>("DataConcurso")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("DataConcurso")
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(2020, 1, 16, 16, 41, 32, 899, DateTimeKind.Local).AddTicks(5456));
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CandidatoId");
 
                     b.HasIndex("ConcursoId");
 
@@ -82,6 +98,12 @@ namespace EnemApp.API.Migrations
                     b.Property<DateTime>("DataRealizacao")
                         .HasColumnName("data_realizacao")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasColumnName("nome")
+                        .HasColumnType("nvarchar(100)")
+                        .HasMaxLength(100);
 
                     b.Property<int>("NumeroVagas")
                         .HasColumnName("numero_vagas")

@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EnemApp.API.Data.Repositories
 {
-    public class BaseRepository<T> : IRepository<T> where T : BaseEntity<T>
+    public class BaseRepository<T> : IRepository<T> where T : BaseEntity
     {
         protected readonly DataContext _dbContext;
 

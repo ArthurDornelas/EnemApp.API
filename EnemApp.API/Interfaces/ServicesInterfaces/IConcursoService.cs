@@ -1,4 +1,5 @@
 ﻿using EnemApp.API.Models;
+using EnemApp.API.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,13 +9,14 @@ namespace EnemApp.API.Interfaces.ServicesInterfaces
 {
     public interface IConcursoService
     {
-        Concurso AddConcurso<TConcursoValidator>(Concurso concurso);
-        Concurso UpdateConcurso<TConcursoValidator>(Concurso concurso);
-        IEnumerable<Concurso> UpdateConcursos(IEnumerable<Concurso> concursos);
-        Concurso GetConcurso(int idConcurso);
-        IEnumerable<Concurso> GetConcursos();
+        ConcursoViewModel AddConcurso(ConcursoViewModel concursoVM);
+        ConcursoViewModel UpdateConcurso(ConcursoViewModel concursoVM);
+        IEnumerable<ConcursoViewModel> UpdateConcursos(IEnumerable<ConcursoViewModel> concursosVM);
+        ConcursoViewModel GetConcurso(int idConcurso);
+        ConcursoViewModel GetConcursoComCandidatos(int idConcurso);
+        IEnumerable<ConcursoViewModel> GetConcursos();
         void DeleteConcurso(int idConcurso);
-        public IEnumerable<Candidato> GetCandidatosConcurso(int id);
+        public IEnumerable<CandidatoViewModel> GetCandidatosConcurso(int id);
         public void AddCandidatosConcurso(int id);
     }
 }

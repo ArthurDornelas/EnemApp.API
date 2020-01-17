@@ -56,17 +56,33 @@ namespace EnemApp.API.Migrations
 
             modelBuilder.Entity("EnemApp.API.Models.CandidatoConcurso", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id")
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
                     b.Property<int>("CandidatoId")
+                        .HasColumnName("CandidatoId")
                         .HasColumnType("int");
 
                     b.Property<int>("ConcursoId")
+                        .HasColumnName("ConcursoId")
                         .HasColumnType("int");
 
-                    b.HasKey("CandidatoId", "ConcursoId");
+                    b.Property<DateTime>("DataConcurso")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("DataConcurso")
+                        .HasColumnType("datetime2")
+                        .HasDefaultValue(new DateTime(2020, 1, 16, 16, 41, 32, 899, DateTimeKind.Local).AddTicks(5456));
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CandidatoId");
 
                     b.HasIndex("ConcursoId");
 
-                    b.ToTable("CandidatoConcurso");
+                    b.ToTable("CandidatosConcursos");
                 });
 
             modelBuilder.Entity("EnemApp.API.Models.Concurso", b =>

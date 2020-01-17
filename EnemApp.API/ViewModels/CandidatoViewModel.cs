@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace EnemApp.API.Models
+namespace EnemApp.API.ViewModels
 {
-    public class Candidato : BaseEntity
+    public class CandidatoViewModel
     {
-        public Candidato()
+        public CandidatoViewModel()
         {
-            CandidatosConcursos = new HashSet<CandidatoConcurso>();
+            CandidatosConcursos = new HashSet<CandidatoConcursoViewModel>();
         }
         private double nota;
         public string Nome { get; set; }
@@ -24,7 +24,6 @@ namespace EnemApp.API.Models
             }
         }
 
-        public virtual ICollection<CandidatoConcurso> CandidatosConcursos { get; set; }
-
+        public virtual ICollection<CandidatoConcursoViewModel> CandidatosConcursos { get; set; }
     }
 }

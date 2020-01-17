@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using EnemApp.API.Configuration;
 using EnemApp.API.Data;
 using EnemApp.API.Models;
@@ -16,6 +17,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Newtonsoft;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 
 namespace EnemApp.API
 {
@@ -36,8 +40,11 @@ namespace EnemApp.API
             services.AddControllers();
             services.AddCors();
             services.RegisterServices();
+            services.AddAutoMapper(typeof(Startup));
             services.AddSwaggerConfiguration();
-            services.AddMvc().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());
+            services.AddMvc()
+                .AddNewtonsoftJson(options => options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore)
+                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Startup>());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

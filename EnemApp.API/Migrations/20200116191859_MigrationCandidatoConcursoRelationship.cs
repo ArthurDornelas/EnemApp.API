@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace EnemApp.API.Migrations
 {
-    public partial class ConcursoMigration : Migration
+    public partial class MigrationCandidatoConcursoRelationship : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -29,6 +29,7 @@ namespace EnemApp.API.Migrations
                 {
                     id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    nome = table.Column<string>(maxLength: 100, nullable: false),
                     data_realizacao = table.Column<DateTime>(nullable: false),
                     numero_vagas = table.Column<int>(nullable: false)
                 },
@@ -54,12 +55,14 @@ namespace EnemApp.API.Migrations
                 name: "CandidatosConcursos",
                 columns: table => new
                 {
+                    id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     CandidatoId = table.Column<int>(nullable: false),
                     ConcursoId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CandidatosConcursos", x => new { x.CandidatoId, x.ConcursoId });
+                    table.PrimaryKey("PK_CandidatosConcursos", x => x.id);
                     table.ForeignKey(
                         name: "FK_CandidatosConcursos_Candidatos_CandidatoId",
                         column: x => x.CandidatoId,
@@ -73,6 +76,11 @@ namespace EnemApp.API.Migrations
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CandidatosConcursos_CandidatoId",
+                table: "CandidatosConcursos",
+                column: "CandidatoId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CandidatosConcursos_ConcursoId",

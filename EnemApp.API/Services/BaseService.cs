@@ -8,7 +8,7 @@ using FluentValidation;
 
 namespace EnemApp.API.Services
 {
-    public class BaseService<T> where T : BaseEntity<T>
+    public class BaseService<T> where T : BaseEntity
     {
         
     }

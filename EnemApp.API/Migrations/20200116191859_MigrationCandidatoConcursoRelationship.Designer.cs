@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EnemApp.API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20200115172339_AddNomeConcurso")]
-    partial class AddNomeConcurso
+    [Migration("20200116191859_MigrationCandidatoConcursoRelationship")]
+    partial class MigrationCandidatoConcursoRelationship
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -58,17 +58,27 @@ namespace EnemApp.API.Migrations
 
             modelBuilder.Entity("EnemApp.API.Models.CandidatoConcurso", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnName("id")
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
                     b.Property<int>("CandidatoId")
+                        .HasColumnName("CandidatoId")
                         .HasColumnType("int");
 
                     b.Property<int>("ConcursoId")
+                        .HasColumnName("ConcursoId")
                         .HasColumnType("int");
 
-                    b.HasKey("CandidatoId", "ConcursoId");
+                    b.HasKey("Id");
+
+                    b.HasIndex("CandidatoId");
 
                     b.HasIndex("ConcursoId");
 
-                    b.ToTable("CandidatoConcurso");
+                    b.ToTable("CandidatosConcursos");
                 });
 
             modelBuilder.Entity("EnemApp.API.Models.Concurso", b =>

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using EnemApp.API.Interfaces.ServicesInterfaces;
 using EnemApp.API.Models;
 using EnemApp.API.Validators;
+using EnemApp.API.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -25,7 +26,8 @@ namespace EnemApp.API.Controllers
         {
             try
             {
-                return Ok(_concursoService.GetConcursos());
+                var concursosVM = _concursoService.GetConcursos();
+                return Ok(concursosVM);
             }
             catch (Exception e)
             {
@@ -38,7 +40,8 @@ namespace EnemApp.API.Controllers
         {
             try
             {
-                return Ok(_concursoService.GetConcurso(idConcurso));
+                var concursoVM = _concursoService.GetConcurso(idConcurso);
+                return Ok(concursoVM);
             }
             catch (Exception e)
             {
@@ -47,12 +50,12 @@ namespace EnemApp.API.Controllers
         }
 
         [HttpPost]
-        public IActionResult RegisterConcurso([FromBody] Concurso concurso)
+        public IActionResult RegisterConcurso([FromBody] ConcursoViewModel concursoVM)
         {
             try
             {
-                _concursoService.AddConcurso<ConcursoValidator>(concurso);
-                return Created("concursos", concurso);
+                _concursoService.AddConcurso(concursoVM);
+                return Created("concursos", concursoVM);
             }
             catch (Exception ex)
             {
@@ -61,12 +64,12 @@ namespace EnemApp.API.Controllers
         }
 
         [HttpPut]
-        public IActionResult EditConcurso([FromBody] Concurso concurso)
+        public IActionResult EditConcurso([FromBody] ConcursoViewModel concursoVM)
         {
             try
             {
-                _concursoService.UpdateConcurso<ConcursoValidator>(concurso);
-                return Ok(concurso);
+                _concursoService.UpdateConcurso(concursoVM);
+                return Ok(concursoVM);
             }
             catch (Exception ex)
             {

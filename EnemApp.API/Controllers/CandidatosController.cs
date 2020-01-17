@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 using EnemApp.API.Interfaces.ServicesInterfaces;
 using EnemApp.API.Validators;
 using FluentValidation;
+using AutoMapper;
+using EnemApp.API.ViewModels;
 
 namespace EnemApp.API.Controllers
 {
@@ -16,6 +18,7 @@ namespace EnemApp.API.Controllers
     public class CandidatosController : ControllerBase
     {
         private readonly ICandidatoService _candidatoService;
+
         public CandidatosController(ICandidatoService candidatoService)
         {
             _candidatoService = candidatoService;
@@ -26,7 +29,8 @@ namespace EnemApp.API.Controllers
         {
             try
             {
-                return Ok(_candidatoService.GetCandidatos());
+                var candidatosVM = _candidatoService.GetCandidatos();
+                return Ok(candidatosVM);
             }
             catch (Exception e)
             {
@@ -39,7 +43,8 @@ namespace EnemApp.API.Controllers
         {
             try
             {
-                return Ok(_candidatoService.GetCandidato(idCandidato));
+                var candidatoVM = _candidatoService.GetCandidato(idCandidato);
+                return Ok(candidatoVM);
             }
             catch (Exception e)
             {
@@ -48,12 +53,12 @@ namespace EnemApp.API.Controllers
         }
 
         [HttpPost]
-        public IActionResult RegisterCandidato([FromBody] Candidato candidato)
+        public IActionResult RegisterCandidato([FromBody] CandidatoViewModel candidatoVM)
         {
             try
             {
-                _candidatoService.AddCandidato<CandidatoValidator>(candidato);
-                return Created("candidatos", candidato);
+                _candidatoService.AddCandidato(candidatoVM);
+                return Created("candidatos", candidatoVM);
             }
             catch (Exception ex)
             {
@@ -62,12 +67,12 @@ namespace EnemApp.API.Controllers
         }
 
         [HttpPut]
-        public IActionResult EditCandidato([FromBody] Candidato candidato)
+        public IActionResult EditCandidato([FromBody] CandidatoViewModel candidatoVM)
         {
             try
             {
-                _candidatoService.UpdateCandidato<CandidatoValidator>(candidato);
-                return Ok(candidato);
+                _candidatoService.UpdateCandidato(candidatoVM);
+                return Ok(candidatoVM);
             }
             catch (Exception ex)
             {
@@ -104,11 +109,12 @@ namespace EnemApp.API.Controllers
         }
 
         [HttpGet("getConcursosCandidato/{idCandidato}")]
-        public IActionResult GetCandidatosConcurso(int idCandidato)
+        public IActionResult GetConcursosCandidato(int idCandidato)
         {
             try
             {
-                return Ok(_candidatoService.GetConcursosCandidato(idCandidato));
+                var concursosVM = _candidatoService.GetConcursosCandidato(idCandidato);
+                return Ok(concursosVM);
             }
             catch (Exception e)
             {

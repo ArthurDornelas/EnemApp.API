@@ -11,6 +11,7 @@ using EnemApp.API.Interfaces.ServicesInterfaces;
 using EnemApp.API.Models;
 using EnemApp.API.Validators;
 using FluentValidation;
+using EnemApp.API.ViewModels;
 
 namespace EnemApp.API.Configuration
 {
@@ -24,7 +25,11 @@ namespace EnemApp.API.Configuration
 
             services.AddScoped<ICandidatoService, CandidatoService>();
 
-            services.AddTransient<IValidator<Candidato>, CandidatoValidator>();
+            //services.AddTransient<IValidator<Candidato>, CandidatoValidator>();
+
+            services.AddTransient<IValidator<CandidatoViewModel>, CandidatoValidator>();
+
+            services.AddTransient<IValidator<ConcursoViewModel>, ConcursoValidator>();
 
             services.AddScoped<IConcursoRepository, ConcursoRepository>();
 

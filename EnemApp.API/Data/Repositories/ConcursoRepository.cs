@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace EnemApp.API.Data.Repositories
 {
-    public class ConcursoRepository: BaseRepository<Concurso>, IConcursoRepository
+    public class ConcursoRepository : BaseRepository<Concurso>, IConcursoRepository
     {
         public ConcursoRepository(DataContext dbContext) : base(dbContext)
         {
@@ -26,32 +26,44 @@ namespace EnemApp.API.Data.Repositories
         public IEnumerable<Candidato> GetCandidatosConcurso(int id)
         {
             var candidatosQuery = _dbContext.Concursos.Where(c => c.Id == id).SelectMany(c => c.CandidatosConcursos.Select(c => c.Candidato));
-            return candidatosQuery;
+            //var candidatosQuery = _dbContext.CandidatosConcursos.Select(c => c.Candidato).Where(;
+                return candidatosQuery;
         }
 
         public void AddCandidatosConcurso(int id)
         {
-            BaseRepository<Candidato> candidatoRepository = new BaseRepository<Candidato>(_dbContext);
-            var candidatos = candidatoRepository.SelectAll();
+       
+            var candidatos = _dbContext.Candidatos;
             var concurso = GetById(id);
-            
-            
+
+            var candidatosConcurso = GetCandidatosConcurso(id).ToList();
+            var candConcursos = new List<CandidatoConcurso>();
+
             foreach (Candidato candidato in candidatos)
             {
-                CandidatoConcurso candConc = new CandidatoConcurso();
+                var existeCandidatoNoConcurso = candidatosConcurso.Any(x => x.Id == candidato.Id);
 
-                candConc.Concurso = concurso;
-                candConc.ConcursoId = concurso.Id;
-                
-                candConc.Candidato = candidato;
-                candConc.CandidatoId = candidato.Id;
+                if (existeCandidatoNoConcurso)
+                    continue;
+                else
+                {
+                    CandidatoConcurso candConc = new CandidatoConcurso();
 
-                candidato.CandidatosConcursos.Add(candConc);
-                concurso.CandidatosConcursos.Add(candConc);
+                    candConc.Concurso = concurso;
+                    candConc.ConcursoId = concurso.Id;
+
+                    candConc.Candidato = candidato;
+                    candConc.CandidatoId = candidato.Id;
+
+                    candidato.CandidatosConcursos.Add(candConc);
+                    concurso.CandidatosConcursos.Add(candConc);
+                    candConcursos.Add(candConc);
+                    
+                }
 
             }
 
-
+            _dbContext.CandidatosConcursos.UpdateRange(candConcursos);
             _dbContext.Candidatos.UpdateRange(candidatos);
             _dbContext.Concursos.Update(concurso);
 
@@ -59,5 +71,13 @@ namespace EnemApp.API.Data.Repositories
 
         }
 
+        public Concurso GetConcursosComCandidatos(int id)
+        {
+         
+            var concurso = _dbContext.Concursos
+                .Include(p => p.CandidatosConcursos).ThenInclude(c => c.Candidato).FirstOrDefault(x => x.Id == id);
+
+            return concurso;
+        }
     }
 }

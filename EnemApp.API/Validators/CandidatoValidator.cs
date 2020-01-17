@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using EnemApp.API.Models;
+using EnemApp.API.ViewModels;
 using FluentValidation;
 
 namespace EnemApp.API.Validators
 {
-    public class CandidatoValidator : AbstractValidator<Candidato>
+    public class CandidatoValidator : AbstractValidator<CandidatoViewModel>
     {
         public CandidatoValidator()
         {

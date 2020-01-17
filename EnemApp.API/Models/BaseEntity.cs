@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace EnemApp.API.Models
 {
-    public class BaseEntity<T> where T : class
+    public class BaseEntity
     {
         public int Id { get; set; }
     }

@@ -3,7 +3,7 @@ using EnemApp.API.Models;
 
 namespace EnemApp.API.Interfaces.RepositoriesInterfaces
 {
-    public interface IRepository<T> where T : BaseEntity<T>
+    public interface IRepository<T> where T : BaseEntity
     {
         T Add(T obj);
 

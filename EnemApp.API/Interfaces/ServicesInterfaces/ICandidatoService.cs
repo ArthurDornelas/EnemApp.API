@@ -1,17 +1,18 @@
 ﻿using System.Collections.Generic;
 using EnemApp.API.Models;
+using EnemApp.API.ViewModels;
 
 namespace EnemApp.API.Interfaces.ServicesInterfaces
 {
     public interface ICandidatoService 
     {
-        Candidato AddCandidato<TCandidatoValidator>(Candidato candidato);
-        Candidato UpdateCandidato<TCandidatoValidator>(Candidato candidato);
-        IEnumerable<Candidato> UpdateCandidatos(IEnumerable<Candidato> candidatos);
-        Candidato GetCandidato(int idCandidato);
-        IEnumerable<Candidato> GetCandidatos();
+        CandidatoViewModel AddCandidato(CandidatoViewModel candidatoVM);
+        CandidatoViewModel UpdateCandidato(CandidatoViewModel candidatoVM);
+        IEnumerable<CandidatoViewModel> UpdateCandidatos(IEnumerable<CandidatoViewModel> candidatosVM);
+        CandidatoViewModel GetCandidato(int idCandidato);
+        IEnumerable<CandidatoViewModel> GetCandidatos();
         void DeleteCandidato(int idCandidato);
         void RealizarConcurso(int numVags);
-        public IEnumerable<Concurso> GetConcursosCandidato(int id);
+        public IEnumerable<ConcursoViewModel> GetConcursosCandidato(int id);
     }
 }
